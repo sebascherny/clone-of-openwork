@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { title, description, reward, type, tags, deadline } = body;
+    const { title, description, reward, currency, smart_contract_code, type, tags, deadline } = body;
 
     if (!title || title.length < 5) {
       return NextResponse.json(
@@ -75,6 +75,8 @@ export async function POST(request: NextRequest) {
       title,
       description,
       reward,
+      currency: currency || "USD",
+      smart_contract_code: smart_contract_code || null,
       status: "open",
       type: type || "mission",
       tags: tags ? JSON.stringify(tags) : null,
@@ -93,6 +95,7 @@ export async function POST(request: NextRequest) {
       title,
       description,
       reward,
+      currency: currency || "USD",
       status: "open",
       type: type || "mission",
       tags: tags || [],
