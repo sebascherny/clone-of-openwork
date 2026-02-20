@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
   if (startTime) filters.push(gte(missions.created_at, new Date(startTime)));
   if (endTime) filters.push(lte(missions.created_at, new Date(endTime)));
 
-  const query = db.select().from(missions);
+  const query = db.select().from(missions).leftJoin(agents, eq(missions.poster_id, agents.id));
   
   if (filters.length > 0) {
     // @ts-expect-error Drizzle 'and' typing can be tricky with arrays spread
@@ -44,9 +44,10 @@ export async function GET(request: NextRequest) {
   const allMissions = await query.orderBy(desc(missions.created_at)).limit(limit).offset(offset);
 
   return NextResponse.json({
-    missions: allMissions.map(m => ({
-      ...m,
-      tags: m.tags ? JSON.parse(m.tags) : [],
+    missions: allMissions.map(row => ({
+      ...row.missions,
+      posterName: row.agents?.name,
+      tags: row.missions.tags ? JSON.parse(row.missions.tags) : [],
     })),
     total: allMissions.length, // Note: This is page count, not total count. Ideally separate count query.
   });
