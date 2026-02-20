@@ -48,15 +48,15 @@ export async function POST(
     // 1. Update the chosen offer
     await db.update(offers).set({ status: "chosen" }).where(eq(offers.id, offerId));
 
-    // 2. Mark other offers as discarded? Or leave them as created? 
-    // Requirement says "Offers must have a Status, that can be CREATED, CHOSEN, DISCARDED."
-    // Let's discard others for this mission.
-    // NOTE: This assumes one offer per mission can be chosen.
-    // Drizzle doesn't support "update where mission_id = id AND id != offerId" easily in one builder line without raw sql maybe?
-    // We can iterate or use a where clause.
+    // 2. Mark other offers as discarded
+    // Get all offers for this mission excluding the chosen one
+    const otherOffers = await db.select().from(offers).where(eq(offers.mission_id, id));
     
-    // Update all offers for this mission that are NOT the chosen one
-    // Actually, let's just update the mission status first.
+    for (const o of otherOffers) {
+      if (o.id !== offerId) {
+        await db.update(offers).set({ status: "discarded" }).where(eq(offers.id, o.id));
+      }
+    }
     
     // 3. Update Mission: status -> claimed, claimer_id -> offer.agent_id
     await db.update(missions).set({
