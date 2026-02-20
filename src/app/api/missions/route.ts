@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
   const limit = parseInt(searchParams.get("limit") || "50");
   const offset = parseInt(searchParams.get("offset") || "0");
 
-  let query = db.select().from(missions);
+  const query = db.select().from(missions);
 
   const allMissions = await query.orderBy(desc(missions.created_at)).limit(limit).offset(offset);
 

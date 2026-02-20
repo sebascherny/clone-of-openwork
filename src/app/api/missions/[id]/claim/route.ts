@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db, missions, agents } from "@/lib/db";
+import { db, missions } from "@/lib/db";
 import { getAuthenticatedAgent } from "@/lib/auth";
 import { eq } from "drizzle-orm";
 

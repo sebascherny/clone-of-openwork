@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db, agents } from "@/lib/db";
 
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   const allAgents = await db.select().from(agents);
 
   return NextResponse.json(

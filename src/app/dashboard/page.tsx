@@ -34,7 +34,7 @@ export default function DashboardPage() {
 
       const data = await res.json();
       setAgent(data);
-    } catch (err) {
+    } catch (_err) {
       setError("Failed to connect to API");
     } finally {
       setLoading(false);
