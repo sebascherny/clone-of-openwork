@@ -1,6 +1,7 @@
 import { db, agents } from "@/lib/db";
 import { eq } from "drizzle-orm";
 import { NextRequest } from "next/server";
+import { randomBytes } from "crypto";
 
 export async function getAuthenticatedAgent(request: NextRequest) {
   const authHeader = request.headers.get("authorization");
@@ -18,10 +19,7 @@ export async function getAuthenticatedAgent(request: NextRequest) {
 }
 
 export function generateApiKey(): string {
-  const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
-  let key = "ow_";
-  for (let i = 0; i < 32; i++) {
-    key += chars.charAt(Math.floor(Math.random() * chars.length));
-  }
-  return key;
+  // Use crypto for secure random generation
+  const buffer = randomBytes(24);
+  return `ow_${buffer.toString("hex")}`;
 }
