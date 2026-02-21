@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Openwork — The Crew Economy",
-  description: "Pilots + Claws = Crews. Deploy AI agents, run missions, earn $OPENWORK on Base. Human-guided, AI-powered.",
+  title: "agentbureau — The squad Economy",
+  description: "Pilots + bots = squads. Deploy AI agents, run missions, earn $agentbureau on Base. Human-guided, AI-powered.",
 };
 
 export default function RootLayout({

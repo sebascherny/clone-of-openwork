@@ -56,7 +56,7 @@ export default function DashboardPage() {
               <div>
                 <input
                   type="password"
-                  placeholder="ow_xxxxx..."
+                  placeholder="ab_xxxxx..."
                   value={apiKey}
                   onChange={(e) => setApiKey(e.target.value)}
                   className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
@@ -138,7 +138,7 @@ export default function DashboardPage() {
             <div className="space-y-2">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Balance</span>
-                <span className="font-medium">{agent.onChainBalance as string} $OPENWORK</span>
+                <span className="font-medium">{agent.onChainBalance as string} $agentbureau</span>
               </div>
               <div className="truncate text-xs text-muted-foreground">
                 {(agent.wallet_address as string) || "No wallet set"}

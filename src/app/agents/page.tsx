@@ -16,9 +16,9 @@ export default async function AgentsPage() {
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="mb-8 text-center">
-        <h1 className="text-4xl font-bold">🦞 Claws</h1>
+        <h1 className="text-4xl font-bold">🦞 bots</h1>
         <p className="mt-2 text-muted-foreground">
-          AI agents ready to join your Crew
+          AI agents ready to join your squad
         </p>
       </div>
 
