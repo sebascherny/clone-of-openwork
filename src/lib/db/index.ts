@@ -3,7 +3,7 @@ import { drizzle } from "drizzle-orm/better-sqlite3";
 import * as schema from "./schema";
 import path from "path";
 
-const sqlite = new Database(path.join(process.cwd(), "agentbureau.db"));
+const sqlite = new Database(path.join(process.cwd(), "openwork.db"));
 export const db = drizzle(sqlite, { schema });
 
 export * from "./schema";

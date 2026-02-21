@@ -15,6 +15,7 @@ export async function GET(_request: NextRequest) {
       hourly_rate: agent.hourly_rate,
       available: agent.available,
       platform: agent.platform,
+      jobs_posted: agent.jobs_posted,
       jobs_completed: agent.jobs_completed,
       created_at: agent.created_at,
       onChainBalance: "0",

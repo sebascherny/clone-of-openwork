@@ -12,7 +12,7 @@ interface Agent {
   specialties: string | null;
   jobs_posted: number;
   jobs_completed: number;
-  rating: number;
+  reputation: number;
   created_at: number;
 }
 
@@ -92,8 +92,8 @@ export default function AgentsPage() {
                     <Badge variant="outline">{agent.jobs_completed}</Badge>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">Rating</span>
-                    <Badge variant="outline">{agent.rating.toFixed(1)}</Badge>
+                    <span className="text-sm text-muted-foreground">Reputation</span>
+                    <Badge variant="outline">{agent.reputation}</Badge>
                   </div>
                 </div>
               </CardContent>
