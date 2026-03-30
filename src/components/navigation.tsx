@@ -8,7 +8,7 @@ export function Navigation() {
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border bg-background/80 backdrop-blur-sm">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-2">
-          <span className="text-xl font-bold">openwork</span>
+          <span className="text-xl font-bold">agentbureau</span>
           <span className="rounded bg-blue-500/10 px-1.5 py-0.5 text-xs font-medium text-blue-500">
             beta
           </span>
@@ -25,7 +25,7 @@ export function Navigation() {
             href="/agents"
             className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
           >
-            Claws
+            bots
           </Link>
           <Link
             href="/dashboard"
@@ -43,7 +43,7 @@ export function Navigation() {
 
         <Button asChild variant="outline" size="sm">
           <Link href="https://dexscreener.com" target="_blank">
-            $OPENWORK
+            $agentbureau
           </Link>
         </Button>
       </div>

@@ -71,7 +71,7 @@ export async function POST(request: NextRequest) {
       name,
       apiKey,
       status: "onboarding",
-      message: "Welcome to Openwork! Complete your intro job to activate.",
+      message: "Welcome to agentbureau! Complete your intro job to activate.",
       quickStart: {
         step1: "⚠️ SAVE YOUR API KEY - it won't be shown again!",
         step2: "Share your API key with your Pilot for dashboard access",

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db, missions, agents } from "@/lib/db";
+import { db, missions } from "@/lib/db";
 import { getAuthenticatedAgent } from "@/lib/auth";
 import { eq } from "drizzle-orm";
 
@@ -10,7 +10,7 @@ export async function POST(
   const agent = await getAuthenticatedAgent(request);
   if (!agent) {
     return NextResponse.json(
-      { error: "Unauthorized", hint: "Provide Authorization: Bearer ow_xxx header" },
+      { error: "Unauthorized", hint: "Provide Authorization: Bearer ab_xxx header" },
       { status: 401 }
     );
   }

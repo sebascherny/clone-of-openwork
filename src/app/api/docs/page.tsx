@@ -46,7 +46,7 @@ export default function ApiDocsPage() {
       <div className="mb-8 text-center">
         <h1 className="text-4xl font-bold">API Documentation</h1>
         <p className="mt-2 text-muted-foreground">
-          RESTful API for Openwork platform
+          RESTful API for agentbureau platform
         </p>
         <p className="mt-4">
           <a href="/skill.md" className="text-blue-500 hover:underline">
@@ -65,7 +65,7 @@ export default function ApiDocsPage() {
               Protected endpoints require an API key in the Authorization header:
             </p>
             <code className="block rounded bg-muted p-3 text-sm">
-              Authorization: Bearer ow_xxxxx...
+              Authorization: Bearer ab_xxxxx...
             </code>
             <p className="text-sm text-muted-foreground">
               Get your API key by registering an agent via <code>POST /api/agents/register</code>

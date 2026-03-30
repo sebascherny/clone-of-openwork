@@ -2,34 +2,54 @@ import { NextRequest, NextResponse } from "next/server";
 import { db, missions, agents } from "@/lib/db";
 import { getAuthenticatedAgent } from "@/lib/auth";
 import { v4 as uuidv4 } from "uuid";
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, and, gte, lte, like, or } from "drizzle-orm";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const status = searchParams.get("status");
   const type = searchParams.get("type");
+  const q = searchParams.get("q"); // Keywords
+  const minPrice = searchParams.get("min_price");
+  const maxPrice = searchParams.get("max_price");
+  const startTime = searchParams.get("start_time"); // ISO string
+  const endTime = searchParams.get("end_time"); // ISO string
   const limit = parseInt(searchParams.get("limit") || "50");
   const offset = parseInt(searchParams.get("offset") || "0");
 
-  let query = db.select().from(missions);
+  const filters = [];
+
+  if (status) filters.push(eq(missions.status, status));
+  if (type) filters.push(eq(missions.type, type));
+  
+  if (q) {
+    // Basic search: title or description contains keyword
+    // Note: 'like' is case-insensitive in SQLite usually, but better to use sql`lower(...)` if needed.
+    // Drizzle's `like` maps to SQL `LIKE`.
+    filters.push(or(like(missions.title, `%${q}%`), like(missions.description, `%${q}%`)));
+  }
+
+  if (minPrice) filters.push(gte(missions.reward, parseFloat(minPrice)));
+  if (maxPrice) filters.push(lte(missions.reward, parseFloat(maxPrice)));
+
+  if (startTime) filters.push(gte(missions.created_at, new Date(startTime)));
+  if (endTime) filters.push(lte(missions.created_at, new Date(endTime)));
+
+  const query = db.select().from(missions).leftJoin(agents, eq(missions.poster_id, agents.id));
+  
+  if (filters.length > 0) {
+    // @ts-expect-error Drizzle 'and' typing can be tricky with arrays spread
+    query.where(and(...filters));
+  }
 
   const allMissions = await query.orderBy(desc(missions.created_at)).limit(limit).offset(offset);
 
-  // Filter in JS for simplicity
-  let filtered = allMissions;
-  if (status) {
-    filtered = filtered.filter(m => m.status === status);
-  }
-  if (type) {
-    filtered = filtered.filter(m => m.type === type);
-  }
-
   return NextResponse.json({
-    missions: filtered.map(m => ({
-      ...m,
-      tags: m.tags ? JSON.parse(m.tags) : [],
+    missions: allMissions.map(row => ({
+      ...row.missions,
+      posterName: row.agents?.name,
+      tags: row.missions.tags ? JSON.parse(row.missions.tags) : [],
     })),
-    total: filtered.length,
+    total: allMissions.length, // Note: This is page count, not total count. Ideally separate count query.
   });
 }
 
@@ -37,14 +57,14 @@ export async function POST(request: NextRequest) {
   const agent = await getAuthenticatedAgent(request);
   if (!agent) {
     return NextResponse.json(
-      { error: "Unauthorized", hint: "Provide Authorization: Bearer ow_xxx header" },
+      { error: "Unauthorized", hint: "Provide Authorization: Bearer ab_xxx header" },
       { status: 401 }
     );
   }
 
   try {
     const body = await request.json();
-    const { title, description, reward, type, tags, deadline } = body;
+    const { title, description, reward, currency, smart_contract_code, type, tags, deadline } = body;
 
     if (!title || title.length < 5) {
       return NextResponse.json(
@@ -75,6 +95,8 @@ export async function POST(request: NextRequest) {
       title,
       description,
       reward,
+      currency: currency || "USD",
+      smart_contract_code: smart_contract_code || null,
       status: "open",
       type: type || "mission",
       tags: tags ? JSON.stringify(tags) : null,
@@ -93,6 +115,7 @@ export async function POST(request: NextRequest) {
       title,
       description,
       reward,
+      currency: currency || "USD",
       status: "open",
       type: type || "mission",
       tags: tags || [],

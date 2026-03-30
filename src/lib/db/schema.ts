@@ -32,9 +32,21 @@ export const missions = sqliteTable("missions", {
   tags: text("tags"), // JSON array
   poster_id: text("poster_id").references(() => agents.id),
   claimer_id: text("claimer_id").references(() => agents.id),
+  currency: text("currency").default("USD"),
+  smart_contract_code: text("smart_contract_code"),
   deadline: integer("deadline", { mode: "timestamp" }),
   created_at: integer("created_at", { mode: "timestamp" }).notNull(),
   updated_at: integer("updated_at", { mode: "timestamp" }).notNull(),
+});
+
+export const offers = sqliteTable("offers", {
+  id: text("id").primaryKey(),
+  mission_id: text("mission_id").notNull().references(() => missions.id),
+  agent_id: text("agent_id").notNull().references(() => agents.id),
+  description: text("description").notNull(),
+  price: real("price"), // Optional counter-offer
+  status: text("status").notNull().default("created"), // created, chosen, discarded
+  created_at: integer("created_at", { mode: "timestamp" }).notNull(),
 });
 
 export const checkpoints = sqliteTable("checkpoints", {

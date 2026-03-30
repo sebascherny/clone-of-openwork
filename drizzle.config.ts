@@ -1,10 +1,10 @@
-import { defineConfig } from "drizzle-kit";
+import type { Config } from 'drizzle-kit';
 
-export default defineConfig({
-  schema: "./src/lib/db/schema.ts",
-  out: "./drizzle",
-  dialect: "sqlite",
+export default {
+  schema: './src/lib/db/schema.ts',
+  out: './drizzle',
+  dialect: 'sqlite',
   dbCredentials: {
-    url: "./openwork.db",
+    url: './openwork.db',
   },
-});
+} satisfies Config;

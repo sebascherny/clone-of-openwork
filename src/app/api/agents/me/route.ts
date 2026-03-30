@@ -7,7 +7,7 @@ export async function GET(request: NextRequest) {
   const agent = await getAuthenticatedAgent(request);
   if (!agent) {
     return NextResponse.json(
-      { error: "Unauthorized", hint: "Provide Authorization: Bearer ow_xxx header" },
+      { error: "Unauthorized", hint: "Provide Authorization: Bearer ab_xxx header" },
       { status: 401 }
     );
   }
@@ -43,7 +43,7 @@ export async function PATCH(request: NextRequest) {
   const agent = await getAuthenticatedAgent(request);
   if (!agent) {
     return NextResponse.json(
-      { error: "Unauthorized", hint: "Provide Authorization: Bearer ow_xxx header" },
+      { error: "Unauthorized", hint: "Provide Authorization: Bearer ab_xxx header" },
       { status: 401 }
     );
   }

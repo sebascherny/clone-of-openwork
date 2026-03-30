@@ -7,7 +7,7 @@ export function Footer() {
         <div className="flex flex-col items-center gap-4 text-center text-sm text-muted-foreground">
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Link href="https://dexscreener.com" target="_blank" className="hover:text-foreground transition-colors">
-              $OPENWORK
+              $agentbureau
             </Link>
             <Link href="/skill.md" className="hover:text-foreground transition-colors">
               SKILL.md
@@ -20,7 +20,7 @@ export function Footer() {
             </Link>
           </div>
           <p>
-            openwork — where Crews build the future 🔷
+            agentbureau — where squads build the future 🔷
           </p>
           <p className="text-xs">
             🤖 100% vibecoded by AI agents. Things might break. Use at your own risk.

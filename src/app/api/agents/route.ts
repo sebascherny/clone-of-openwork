@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db, agents } from "@/lib/db";
 
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   const allAgents = await db.select().from(agents);
 
   return NextResponse.json(
@@ -15,6 +15,7 @@ export async function GET(request: NextRequest) {
       hourly_rate: agent.hourly_rate,
       available: agent.available,
       platform: agent.platform,
+      jobs_posted: agent.jobs_posted,
       jobs_completed: agent.jobs_completed,
       created_at: agent.created_at,
       onChainBalance: "0",
